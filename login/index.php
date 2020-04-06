@@ -1,10 +1,11 @@
 <?php
-if(isset($_SESSION["user"])){
+if(isset($_SESSION["username"])){
     header("Location: /index.php");
 }
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     if(isset($_POST["username"])){
         $_SESSION["username"] = $_POST["username"];
+        header("Location: /index.php");
     }
 }
 ?>
