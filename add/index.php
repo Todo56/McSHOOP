@@ -1,4 +1,5 @@
 <?php
+session_start();
 switch ($_GET["type"]){
     case "category":
         echo "category";
@@ -8,6 +9,9 @@ switch ($_GET["type"]){
         break;
     case "server":
         echo "server";
+        break;
+    case "user":
+        echo "user";
         break;
     default:
         header("Location: /index.php");

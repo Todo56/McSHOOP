@@ -1,0 +1,16 @@
+body {
+    padding-top: 56px;
+    background-color: #151618!important;
+    color: white !important;
+}
+nav, footer {
+    background-color: #181a1b!important;
+}
+.card, .card-body, .nice-bar , .teams, footer, .footer-copyright, .sexy-text, .card-block{
+    background-color: #151618!important;
+    color: #ffffff;
+}
+.rounded {
+    border-radius: 10px !important;
+    padding: 20px;
+}
