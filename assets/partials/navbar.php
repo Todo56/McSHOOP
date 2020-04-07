@@ -35,7 +35,7 @@
 </script>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background-color: #181a1b!important;">
     <div class="container">
-      <a class="navbar-brand" href="#"><?php echo $shop_name; ?></a>
+      <a class="navbar-brand" href="<?php echo $base;?>"><?php echo $shop_name; ?></a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
 </button>
@@ -63,8 +63,8 @@
                 Dashboard
             </a>
             <ul class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"navbarDropdownMenuLink\">
-                <li class=\"dropdown-item\" href=\"$dashboard\">Home</li>
-                <li class=\"dropdown-item\" href=\"$logout\">Log Out</li>
+                <li  ><a href=\"$dashboard\" class=\"dropdown-item\">Home</a></li>
+                <li ><a href=\"$logout\" class=\"dropdown-item\" >Logout</a></li>
                 <li class=\"nav-item dropdown-submenu\">
                     <a class=\"test dropdown-item dropdown-toggle\" tabindex=\"-1\" href=\"\" style=\"background-color: rgb(24, 26, 27); color: white\">Create<span class=\"caret\"></span></a>
                     <ul class=\"dropdown-menu\">

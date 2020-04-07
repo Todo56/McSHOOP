@@ -1,14 +1,175 @@
 <?php
+include ("../../config.php");
+$error = "";
 session_start();
+if(!isset($_GET["type"])){
+    header("Location: $base");
+}
+include ("../auth.php");
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title><?php echo $shop_name; ?></title>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+            crossorigin="anonymous"></script>
+        <!-- Bootstrap core CSS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- Custom styles for this template -->
+        <link href="../../assets/css/style.css" rel="stylesheet">
+        <style type="text/css">
+            .login-form {
+                width: 340px;
+                margin: 50px auto;
+            }
+            .login-form form {
+                margin-bottom: 15px;
+                background-color: #181a1b!important;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+                padding: 30px;
+            }
+            .login-form h2 {
+                margin: 0 0 15px;
+            }
+            .form-control, .btn {
+                min-height: 38px;
+                border-radius: 2px;
+            }
+            .btn {
+                font-size: 15px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+<body>
+
+    <!-- Navigation -->
+<?php require("../../assets/partials/navbar.php"); ?>
+<?php
 switch ($_GET["type"]){
     case "category":
-        echo "category";
+
+        echo "<div class=\"login-form\">
+    <form method=\"post\">
+        <h2 class=\"text-center\">Create Category</h2>
+        <div class=\"form-group\">
+            <input type=\"text\" class=\"form-control\" placeholder=\"My Category\" name=\"name\" required=\"required\">
+        </div>
+        <div class=\"form-group\">
+            <textarea name='description' placeholder='My category is a very nice category indeed.' required class=\"form-control\"></textarea>
+        </div>
+        <div class=\"form-group\">
+            <button type=\"submit\" class=\"btn btn-primary btn-block\">Create</button>
+        </div>
+        <div class=\"clearfix\">
+            <?php  echo $error;?>
+        </div>
+    </form>
+</div>";
         break;
     case "product":
-        echo "product";
+        $res = $con->query("SELECT * FROM servers");
+        $res1 = $con->query("SELECT * FROM categories");
+        echo "<div class=\"login-form\">
+    <form method=\"post\">
+        <h2 class=\"text-center\">Create Product</h2>
+        <div class=\"form-group\">
+        Name:
+            <input type=\"text\" class=\"form-control\" placeholder=\"My Product\" name=\"name\" required>
+        </div>
+        <div class=\"form-group\">
+        Description:
+            <textarea name='description' placeholder='This product is very nice! You should probably buy it.' required class=\"form-control\"></textarea>
+        </div>
+        <div class=\"form-group\">
+             Price:
+             <input type=\"number\" class=\"form-control\" required name=\"price\" min=\"0\" value=\"0\" step=\".01\">
+        </div>
+        <div class=\"form-group\">
+            Command:
+            <textarea name='command' placeholder='setgroup {{player}} Rank' required class=\"form-control\"></textarea>
+            <small>{{player}} is the player's name.</small>
+        </div>
+        <div class=\"form-group\">
+        Server to execute this on:
+                     <select class='form-control' name='server'>
+                                  <option value='0'>All</option>
+         ";
+        while($row = $res->fetch_assoc()){
+            $ip = $row["host"];
+            $port = $row["port"];
+            $id = $row["id"];
+            echo "<option value='$id'>$ip:$port</option>";
+        }
+        echo "
+             </select>
+        </div>
+        <div class='form-group'>
+        Category:
+        <select name='category' class='form-control'>
+        ";
+        while($row = $res1->fetch_assoc()){
+            $name = $row["name"];
+            $id = $row["id"];
+            echo "<option value='$id'>$name</option>";
+        }
+        echo "
+</select>
+        </div>
+        <br>
+        <div class=\"form-group\">
+            <button type=\"submit\" class=\"btn btn-primary btn-block\">Create</button>
+        </div>
+        <div class=\"clearfix\">
+            <?php  echo $error;?>
+        </div>
+    </form>
+</div>";
         break;
     case "server":
-        echo "server";
+        echo "
+        
+        <div class=\"login-form\">
+    <form method=\"post\">
+        <h2 class=\"text-center\">Create Server</h2>
+        <div class=\"form-group\">
+            Host:
+            <input type=\"text\" class=\"form-control\" placeholder=\"127.0.0.1\" name=\"host\" required>
+        </div>
+                <div class=\"form-group\">
+                Port:
+            <input type=\"number\" class=\"form-control\" placeholder=\"19132\" name=\"port\" required>
+        </div>
+        <div class=\"form-group\">
+        Password:
+                    <input type=\"password\" class=\"form-control\" placeholder=\"Password\" name=\"password\" required>
+        </div><br>
+        <div class=\"form-group\">
+            <button type=\"submit\" class=\"btn btn-primary btn-block\">Create</button>
+        </div>
+        <div class=\"clearfix\">
+            <?php  echo $error;?>
+        </div>
+    </form>
+</div>
+        ";
+        require("../../utils/Rcon.php");
+        $rcon = new Rcon("127.0.0.1", 19132, "5u10vgtpic", 1);
+        if($rcon->connect()){
+            $rcon->sendCommand("say Server connected with McpeSHOOP");
+        }
         break;
     case "user":
         echo "user";
@@ -17,3 +178,15 @@ switch ($_GET["type"]){
         header("Location: /index.php");
         break;
 }
+?>
+    <footer class="py-5 bg-dark" style="background-color: #181a1b!important;">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; <?php echo $shop_name; ?> 2020</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+
+
+</body>
+
+</html>

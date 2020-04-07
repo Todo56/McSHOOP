@@ -41,7 +41,29 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="../../assets/css/style.css" rel="stylesheet">
-
+    <style type="text/css">
+        .login-form {
+            width: 340px;
+            margin: 50px auto;
+        }
+        .login-form form {
+            margin-bottom: 15px;
+            background-color: #181a1b!important;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+        .login-form h2 {
+            margin: 0 0 15px;
+        }
+        .form-control, .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,23 +72,21 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 <?php require("../../assets/partials/navbar.php"); ?>
 
 <!-- Page Content -->
-<div class="container">
+<div class="login-form">
     <form method="post">
-
+        <h2 class="text-center">Log in</h2>
         <div class="form-group">
-            <label>
-                Username:
-                <input class="form-control" type="text" name="user">
-            </label>
+            <input type="text" class="form-control" placeholder="Username" name="user" required="required">
         </div>
         <div class="form-group">
-            <label>
-                Password:
-                <input class="form-control" type="password" name="password">
-            </label>
+            <input type="password" class="form-control" placeholder="Password" name="password" required="required">
         </div>
-        <?php echo $error;?>
-        <input class="btn btn-primary" type="submit">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </div>
+        <div class="clearfix">
+            <?php  echo $error;?>
+        </div>
     </form>
 </div>
 <!-- /.container -->

@@ -1,6 +1,5 @@
 
 <?php
-include ("../config.php");
 $login = $base . "dashboard/login";
 if(isset($_SESSION["user"]) && isset($_SESSION["password"])){
     $password = $_SESSION["password"];
