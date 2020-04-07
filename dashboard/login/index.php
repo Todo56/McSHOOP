@@ -10,7 +10,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         if($res->num_rows < 1){
             $error = "Invalid Credentials";
         } else {
+            $row = $res->fetch_assoc();
             $_SESSION["user"] = $user;
+            $_SESSION["user_id"] = $row["id"];
             $_SESSION["password"] = $password;
             $dashboard = $base . "dashboard";
             header("Location: $dashboard");

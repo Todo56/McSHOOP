@@ -37,7 +37,7 @@ include ("../auth.php");
                 margin-bottom: 15px;
                 background-color: #181a1b!important;
                 box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-                padding: 30px;
+                padding: 5px;
             }
             .login-form h2 {
                 margin: 0 0 15px;
@@ -60,6 +60,15 @@ include ("../auth.php");
 $dashboard = $base . "dashboard";
 ?>
 <?php
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 switch ($_GET["type"]){
     case "category":
         if($_SERVER["REQUEST_METHOD"] === "POST"){
@@ -99,8 +108,43 @@ switch ($_GET["type"]){
     case "product":
         $res = $con->query("SELECT * FROM servers");
         $res1 = $con->query("SELECT * FROM categories");
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            if(isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["command"]) && isset($_POST["server"]) && isset($_POST["category"])){
+                if(strlen($_POST["name"]) > 50){
+                    $error = "Name is too long";
+
+                } else if(strlen($_POST["command"]) > 100){
+                    $error = "Command is too long";
+                } else {
+
+                    $name = mysqli_real_escape_string($con, $_POST["name"]);
+                    $description = mysqli_real_escape_string($con, $_POST["description"]);
+                    $price = floatval($_POST["price"]);
+                    $command = mysqli_real_escape_string($con, $_POST["command"]);
+                    $server = intval($_POST["server"]);
+                    $category = intval($_POST["category"]);
+                    $author = intval($_SESSION["user_id"]);
+                    if($_FILES["image"]){
+                        $target_dir = "../../assets/images/";
+                        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                        if (file_exists($target_file)) {
+                            $target_file = $target_dir . generateRandomString() . ".".pathinfo($_FILES['image']['name'],PATHINFO_EXTENSION);
+                            move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
+                        } else {
+                            move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
+                        }
+                    }
+                    $con->query("INSERT INTO products(name, description, price, command, category, server, author, image) VALUES ('$name', '$description', $price, '$command', $category, $server, $author, '$target_file')");
+                    echo "<script>
+                        window.location = '$dashboard'
+                    </script>";
+                }
+            } else {
+                $error = "Invalid Request";
+            }
+        }
         echo "<div class=\"login-form\">
-    <form method=\"post\">
+    <form method=\"post\" enctype=\"multipart/form-data\">
         <h2 class=\"text-center\">Create Product</h2>
         <div class=\"form-group\">
         Name:
@@ -113,6 +157,10 @@ switch ($_GET["type"]){
         <div class=\"form-group\">
              Price:
              <input type=\"number\" class=\"form-control\" required name=\"price\" min=\"0\" value=\"0\" step=\".01\">
+        </div>
+               <div class=\"form-group\">
+               Product Image: <small>Optional</small>
+            <input type='file' class='form-control' name='image' id='image'>
         </div>
         <div class=\"form-group\">
             Command:
@@ -211,7 +259,9 @@ echo "
 </div>";
         break;
     default:
-        header("Location: /index.php");
+        echo "<script>
+                        window.location = '$dashboard'
+                    </script>";
         break;
 }
 ?>
