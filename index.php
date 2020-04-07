@@ -12,7 +12,7 @@ require ("./auth.php");
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Shop Homepage - Start Bootstrap Template</title>
+  <title><?php echo $shop_name; ?></title>
     <script
             src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
@@ -29,32 +29,7 @@ require ("./auth.php");
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background-color: #181a1b!important;">
-    <div class="container">
-      <a class="navbar-brand" href="#"><?php echo $shop_name; ?></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<?php require("./assets/partials/navbar.php"); ?>
 
   <!-- Page Content -->
   <div class="container">
