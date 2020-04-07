@@ -257,6 +257,22 @@ echo "
         </div>
     </form>
 </div>";
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            if(isset($_POST["username"]) && isset($_POST["password"])){
+                if(strlen($_POST["username"]) < 30){
+                    $name = mysqli_real_escape_string($con, $_POST["username"]);
+                    $description = hash('sha512', $_POST["password"]);
+                    $con->query("INSERT INTO users (username, password) VALUES ('$name', '$description')");
+                    echo "<script>
+                        window.location = '$dashboard'
+                    </script>";
+                } else {
+                    $error = "Username is too long";
+                }
+            } else {
+                $error = "Invalid Request";
+            }
+        }
         break;
     default:
         echo "<script>
