@@ -56,11 +56,28 @@ include ("../auth.php");
 <body>
 
     <!-- Navigation -->
-<?php require("../../assets/partials/navbar.php"); ?>
+<?php require("../../assets/partials/navbar.php");
+$dashboard = $base . "dashboard";
+?>
 <?php
 switch ($_GET["type"]){
     case "category":
-
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            if(isset($_POST["name"]) && isset($_POST["description"])){
+                if(strlen($_POST["name"]) < 50){
+                    $name = mysqli_real_escape_string($con, $_POST["name"]);
+                    $description = mysqli_real_escape_string($con, $_POST["description"]);
+                    $con->query("INSERT INTO categories (name, description) VALUES ('$name', '$description')");
+                    echo "<script>
+                        window.location = '$dashboard'
+                    </script>";
+                } else {
+                    $error = "Name is too long";
+                }
+            } else {
+                $error = "Invalid Request";
+            }
+        }
         echo "<div class=\"login-form\">
     <form method=\"post\">
         <h2 class=\"text-center\">Create Category</h2>
@@ -172,7 +189,26 @@ switch ($_GET["type"]){
         }
         break;
     case "user":
-        echo "user";
+echo "
+<div class=\"login-form\">
+    <form method=\"post\">
+        <h2 class=\"text-center\">Create User</h2>
+        <div class=\"form-group\">
+        Username:
+            <input type=\"text\" class=\"form-control\" placeholder=\"Todo56\" name=\"username\" required>
+        </div>
+        <div class=\"form-group\">
+        Password:
+            <input type=\"password\" class=\"form-control\" placeholder=\"Password\" name=\"password\" required>
+        </div>
+        <div class=\"form-group\">
+            <button type=\"submit\" class=\"btn btn-primary btn-block\">Create</button>
+        </div>
+        <div class=\"clearfix\">
+            <?php  echo $error;?>
+        </div>
+    </form>
+</div>";
         break;
     default:
         header("Location: /index.php");
