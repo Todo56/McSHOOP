@@ -1,5 +1,7 @@
 <?php
 include ("../../config.php");
+include ("../../utils/DatabaseManager.php");
+$db = new DatabaseManager($con_settings);
 $error = "";
 session_start();
 if(!isset($_GET["type"])){
@@ -76,7 +78,8 @@ switch ($_GET["type"]){
                 if(strlen($_POST["name"]) < 50){
                     $name = mysqli_real_escape_string($con, $_POST["name"]);
                     $description = mysqli_real_escape_string($con, $_POST["description"]);
-                    $con->query("INSERT INTO categories (name, description) VALUES ('$name', '$description')");
+                    $db->query("INSERT INTO categories (name, description) VALUES (?, ?)", "ss", [$name, $description]);
+                    //$con->query("INSERT INTO categories (name, description) VALUES ('$name', '$description')");
                     echo "<script>
                         window.location = '$dashboard'
                     </script>";
@@ -106,8 +109,8 @@ switch ($_GET["type"]){
 </div>";
         break;
     case "product":
-        $res = $con->query("SELECT * FROM servers");
-        $res1 = $con->query("SELECT * FROM categories");
+        $res = $db->select("SELECT * FROM servers");
+        $res1 = $db->select("SELECT * FROM categories");
         if($_SERVER["REQUEST_METHOD"] === "POST"){
             if(isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["command"]) && isset($_POST["server"]) && isset($_POST["category"])){
                 if(strlen($_POST["name"]) > 50){
@@ -117,10 +120,10 @@ switch ($_GET["type"]){
                     $error = "Command is too long";
                 } else {
 
-                    $name = mysqli_real_escape_string($con, $_POST["name"]);
-                    $description = mysqli_real_escape_string($con, $_POST["description"]);
+                    $name = $_POST["name"];
+                    $description = $_POST["description"];
                     $price = floatval($_POST["price"]);
-                    $command = mysqli_real_escape_string($con, $_POST["command"]);
+                    $command =  $_POST["command"];
                     $server = intval($_POST["server"]);
                     $category = intval($_POST["category"]);
                     $author = intval($_SESSION["user_id"]);
@@ -134,7 +137,7 @@ switch ($_GET["type"]){
                             move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
                         }
                     }
-                    $con->query("INSERT INTO products(name, description, price, command, category, server, author, image) VALUES ('$name', '$description', $price, '$command', $category, $server, $author, '$target_file')");
+                    $db->insert("INSERT INTO products(name, description, price, command, category, server, author, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "ssdsiiis", [$name, $description, $price, $command, $category, $server, $author, $target_file]);
                     echo "<script>
                         window.location = '$dashboard'
                     </script>";
@@ -260,9 +263,9 @@ echo "
         if($_SERVER["REQUEST_METHOD"] === "POST"){
             if(isset($_POST["username"]) && isset($_POST["password"])){
                 if(strlen($_POST["username"]) < 30){
-                    $name = mysqli_real_escape_string($con, $_POST["username"]);
+                    $name = $_POST["username"];
                     $description = hash('sha512', $_POST["password"]);
-                    $con->query("INSERT INTO users (username, password) VALUES ('$name', '$description')");
+                    $db->insert("INSERT INTO users (username, password) VALUES (?, ?)", "ss", [$name, $description]);
                     echo "<script>
                         window.location = '$dashboard'
                     </script>";

@@ -41,7 +41,9 @@ require ("./auth.php");
         <h1 class="my-4"><?php echo $shop_name; ?></h1>
         <div class="list-group">
             <?php
-            $res = $con->query("SELECT * FROM categories");
+            include("./utils/DatabaseManager.php");
+            $db = new DatabaseManager($con_settings);
+            $res = $db->select("SELECT * FROM categories");
             while($row = $res->fetch_assoc()){
                 $id = $row["id"];
                 $name = $row["name"];
@@ -51,10 +53,8 @@ require ("./auth.php");
             }
             ?>
         </div>
-
       </div>
       <!-- /.col-lg-3 -->
-
       <div class="col-lg-9">
 
         <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -86,7 +86,8 @@ require ("./auth.php");
 
         <div class="row">
             <?php
-            $res = $con->query("SELECT * FROM products");
+
+            $res = $db->select( "SELECT * FROM products");
             while($row = $res->fetch_assoc()){
                 $id = $row["id"];
                 $name = $row["name"];
@@ -94,7 +95,7 @@ require ("./auth.php");
                 $price = $row["price"];
                 $image = $row["image"];
                 $category = $row["category"];
-                $res1 = $con->query("SELECT * FROM categories WHERE id=$category");
+                $res1 = $db->select( "SELECT * FROM categories WHERE id=$category");
                 if($res->num_rows === 0){
                     $cat = "<span class=\"badge badge-danger\">Deleted</span>";
                 } else {

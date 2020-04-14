@@ -1,18 +1,19 @@
 <?php
 $error = "";
+include("../../utils/DatabaseManager.php");
 session_start();
 require ("../../config.php");
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     if(isset($_POST["user"]) && isset($_POST["password"])){
         $password = hash('sha512', $_POST['password']);
         $user = $_POST["user"];
-        $res = $con->query("SELECT * FROM users WHERE username='$user' AND password='$password'");
-        if($res->num_rows < 1){
+        $res = $db->query("SELECT * FROM users WHERE username=? AND password=?", "ss", [$user, $password]);
+        var_dump($res);
+        if(count($res) < 1){
             $error = "Invalid Credentials";
         } else {
-            $row = $res->fetch_assoc();
             $_SESSION["user"] = $user;
-            $_SESSION["user_id"] = $row["id"];
+            $_SESSION["user_id"] = $res["id"];
             $_SESSION["password"] = $password;
             $dashboard = $base . "dashboard";
             header("Location: $dashboard");
