@@ -2,6 +2,7 @@ body {
     padding-top: 56px;
     background-color: #151618!important;
     color: white !important;
+    height: 100%;
 }
 nav, footer {
     background-color: #181a1b!important;
@@ -13,4 +14,17 @@ nav, footer {
 .rounded {
     border-radius: 10px !important;
     padding: 20px;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+}
+body, .sticky-footer-wrapper {
+    min-height:100vh;
+}
+
+.flex-fill {
+    flex:1 1 auto;
 }

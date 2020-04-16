@@ -1,7 +1,28 @@
-paymentToken EC-6LL80613065973224
-orderID EC-6LL80613065973224
-payerID MBYNG72JVJC2N
-paymentID PAYID-L2MLINY4F796949H53469452
-intent sale
-returnUrl https://www.paypal.com/checkoutnow/error?paymentId=PAYID-L2MLINY4F796949H53469452&token=EC-6LL80613065973224&PayerID=MBYNG72JVJC2N
-button_version 2.1.93
+HTTP/1.1 100 Continue
+
+HTTP/1.1 401 Unauthorized
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Length: 244
+Content-Type: application/json
+Date: Thu, 16 Apr 2020 20:51:52 GMT
+Paypal-Debug-Id: 85a5ec5ed9fd2
+
+{"name":"AUTHENTICATION_FAILURE","message":"Authentication failed due to invalid authentication credentials or a missing Authorization header.","links":[{"href":"https://developer.paypal.com/docs/api/overview/#error","rel":"information_link"}]}
+HTTP/1.1 100 Continue
+
+HTTP/1.1 401 Unauthorized
+Cache-Control: max-age=0, no-cache, no-store, must-revalidate
+Content-Length: 244
+Content-Type: application/json
+Date: Thu, 16 Apr 2020 20:54:12 GMT
+Paypal-Debug-Id: 88d04857ab26f
+
+{"name":"AUTHENTICATION_FAILURE","message":"Authentication failed due to invalid authentication credentials or a missing Authorization header.","links":[{"href":"https://developer.paypal.com/docs/api/overview/#error","rel":"information_link"}]}https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L2MMLWQ2Y298949YD2760359A21AAHCWoO8t0_BC51kfxMNP3U3h4m0x1cfm4n3cHMDHflQavUd6zPEabm9YMI2ezNnevGeqoluQWuigDAlDvHCHM8pOgbXhA
+https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L2MMN3Q59H51857F0707672DA21AAHCWoO8t0_BC51kfxMNP3U3h4m0x1cfm4n3cHMDHflQavUd6zPEabm9YMI2ezNnevGeqoluQWuigDAlDvHCHM8pOgbXhA
+https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L2MMOQI76U83402X55694501A21AAHjdmERvzJ3dvudIl63r1eOBlB6IP_MU3DEi-vWlzxSN9YJP4g7SIMMkG8lznavvasnHYIlWvKVY5KHRXu3LDkq34wUnQ
+https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L2MMXUQ2MX25616DN4315323A21AAHjdmERvzJ3dvudIl63r1eOBlB6IP_MU3DEi-vWlzxSN9YJP4g7SIMMkG8lznavvasnHYIlWvKVY5KHRXu3LDkq34wUnQ
+https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L2MMZ3Q9DH03191856908248A21AAHjdmERvzJ3dvudIl63r1eOBlB6IP_MU3DEi-vWlzxSN9YJP4g7SIMMkG8lznavvasnHYIlWvKVY5KHRXu3LDkq34wUnQ
+https://api.sandbox.paypal.com/v1/payments/payment/PAYID-L2MM4MQ11B038242H3234944A21AAHjdmERvzJ3dvudIl63r1eOBlB6IP_MU3DEi-vWlzxSN9YJP4g7SIMMkG8lznavvasnHYIlWvKVY5KHRXu3LDkq34wUnQ:Bearer
+Authorization:Bearer A21AAHjdmERvzJ3dvudIl63r1eOBlB6IP_MU3DEi-vWlzxSN9YJP4g7SIMMkG8lznavvasnHYIlWvKVY5KHRXu3LDkq34wUnQ
+1Authorization: Bearer A21AAHjdmERvzJ3dvudIl63r1eOBlB6IP_MU3DEi-vWlzxSN9YJP4g7SIMMkG8lznavvasnHYIlWvKVY5KHRXu3LDkq34wUnQ
+1Authorization: Bearer A21AAFdo-Tpv02vIxbsRMDM2tuE16vgzQwE5b7hpnCMgo015SIq7wNEHCCSFFhaK3hxNievzrlmh8RxvGUvl3RMBSfoXoLhfg

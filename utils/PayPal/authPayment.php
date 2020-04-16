@@ -1,9 +1,15 @@
 <?php
-$text = "";
-$keys = array_keys($_POST);
-$values = array_values($_POST);
-for($i = 0; $i < count($_POST); $i++){
-$text .= $keys[$i] . " " . $values[$i] . "\n";
+if(!isset($_POST["id"])){
+    return '{"error": true, "message": "And invalid request was attempted."}';
 }
-
-file_put_contents("../../log.txt", $text);
+include "./PayPal.php";
+include "../../config.php";
+$p = new PayPal($sandbox);
+$creds = ($sandbox === true) ? [$paypal_app_client_id_sandbox, $paypal_app_client_secret_sandbox] : [$paypal_app_client_id, $paypal_app_client_secret];
+$token = $p->getToken($creds[0], $creds[1]);
+$res = $p->checkPayment($_POST["id"], $token);
+if($res){
+    echo '{"error": false, "message": "Success!"';
+} else {
+    echo '{"error": true, "message": "Invalid PaymentID."';
+}

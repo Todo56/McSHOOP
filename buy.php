@@ -26,8 +26,9 @@ $image = $res[0]["image"];
     <title><?php echo $shop_name; ?></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
+    <script
+            src="https://www.paypal.com/sdk/js?client-id=<?php echo ($sandbox === true) ? $paypal_app_client_id_sandbox : $paypal_app_client_id;?>">
+    </script>
     <!-- Bootstrap core CSS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -59,7 +60,7 @@ $image = $res[0]["image"];
     </style>
 </head>
 
-<body>
+<body class="d-flex flex-column sticky-footer-wrapper">
 
 <!-- Navigation -->
 <?php require("./assets/partials/navbar.php"); ?>
@@ -79,59 +80,41 @@ $image = $res[0]["image"];
 <!-- /.container -->
 
 <!-- Footer -->
-<footer class="py-5 bg-dark" style="background-color: #181a1b!important;">
+<footer class="py-5 bg-dark " style="background-color: #181a1b!important;">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; <?php echo $shop_name; ?> 2020</p>
     </div>
     <!-- /.container -->
 </footer>
 <script>
-    paypal.Button.render({
-        // Configure environment
-        env:  <?php echo ($sandbox === true) ? "'sandbox'" : "'production'"; ?>,
-        client: {
-            sandbox: <?php echo "'$paypal_app_client_id_sandbox'"; ?>,
-            production:  <?php echo "'$paypal_app_client_id'"; ?>
-        },
-        // Customize button (optional)
-        locale: 'en_US',
-        style: {
-            size: 'responsive',
-            color: 'black',
-            shape: 'rect',
-            label: 'checkout'
-        },
-        // Enable Pay Now checkout flow (optional)
-        commit: true,
-        // Set up a payment
-        payment: function(data, actions) {
-            return actions.payment.create({
-                transactions: [{
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            // This function sets up the details of the transaction, including the amount and line item details.
+            return actions.order.create({
+                purchase_units: [{
                     amount: {
-                        total: '<?php echo $res[0]["price"]; ?>',
-                        currency: 'USD'
+                        value: '<?php echo $res[0]["price"]; ?>'
                     }
                 }]
             });
         },
-        // Execute the payment
-        onAuthorize: function(data, actions) {
-            return actions.payment.execute().then(function() {
-                console.log(data);
-                $.ajax({
-                    url: "./utils/PayPal/authPayment.php",
-                    method: "POST",
-                    data: data,
-                    success: function(data){alert(JSON.stringify(data));},
-                    error: function(errMsg) {
-                        alert(JSON.stringify(errMsg));
-                    }
-                });                // Show a confirmation message to the buyer
-                window.alert('Thank you for your purchase!');
+        onApprove: function(data, actions) {
+            // This function captures the funds from the transaction.
+            return actions.order.capture().then(function(details) {
+                // This function shows a transaction success message to your buyer.
+                $.ajax("./utils/PayPal/authPayment.php", {
+                details,
+                function(data, status) {
+                    console.log(data, status);
+                    alert("Data: " + data + "\nStatus: " + status);
+                }
+                })
+                console.log(details);
+                alert('Transaction completed by ' + details.payer.name.given_name);
             });
-        }
-    }, '#paypal-button');
-
+    }
+    }).render('#paypal-button');
+    //This function displays Smart Payment Buttons on your web page.
 </script>
 
 </body>
