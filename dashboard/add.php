@@ -1,13 +1,13 @@
 <?php
-include ("../../config.php");
-include ("../../utils/DatabaseManager.php");
+include ("../config.php");
+include ("../utils/DatabaseManager.php");
 $db = new DatabaseManager($con_settings);
 $error = "";
 session_start();
 if(!isset($_GET["type"])){
     header("Location: $base");
 }
-include ("../auth.php");
+include ("./dashauth.php");
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -29,7 +29,7 @@ include ("../auth.php");
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <!-- Custom styles for this template -->
-        <link href="../../assets/css/style.css" rel="stylesheet">
+        <link href="../assets/css/style.css" rel="stylesheet">
         <style type="text/css">
             .login-form {
                 width: 340px;
@@ -58,7 +58,7 @@ include ("../auth.php");
 <body>
 
     <!-- Navigation -->
-<?php require("../../assets/partials/navbar.php");
+<?php require("../assets/partials/navbar.php");
 $dashboard = $base . "dashboard";
 ?>
 <?php

@@ -1,9 +1,6 @@
 <?php
-
 require("./config.php");
 if(!isset($_SESSION["username"])){
-    echo $_SESSION["username"];
-
-    $r = $base . "login";
+    $r = $base . "login.php";
     header("Location: $r");
 }

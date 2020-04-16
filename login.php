@@ -1,9 +1,10 @@
 <?php
 session_start();
 if(isset($_SESSION["username"])){
-    header("Location: /index.php");
+    echo "already";
+   //  header("Location: /index.php");
 }
-include ("../config.php");
+include ("./config.php");
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     if(isset($_POST["username"])){
         $r = $base . "index.php";

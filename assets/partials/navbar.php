@@ -35,7 +35,7 @@
 </script>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background-color: #181a1b!important;">
     <div class="container">
-      <a class="navbar-brand" href="<?php echo $base;?>"><?php echo $shop_name; ?></a>
+      <a class="navbar-brand" href="<?php echo $base;?>"><?php echo $shop_name; ?> | Logged in as <?php echo $_SESSION["username"]; ?></a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
 </button>
@@ -46,9 +46,9 @@
         </li>
         <?php
         if(isset($_SESSION["user"]) && isset($_SESSION["password"])){
-            $logout = $base . "dashboard/logout";
+            $logout = $base . "dashboard/logout.php";
             $dashboard = $base . "dashboard";
-            $add = $dashboard . "/add";
+            $add = $dashboard . "/add.php";
             echo "
                     <li class=\"nav-item dropdown \">
             <a class=\"nav-link dropdown-toggle\" style=\"color: white\" href=\"\" id=\"navbarDropdownMenuLink\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
@@ -69,7 +69,7 @@
             </ul>
         </li>";
         } else {
-            $login = $base . "dashboard/login";
+            $login = $base . "dashboard/login.php";
             echo "
         <li class=\"nav-item\">
             <a class=\"nav-link\" href=\"$login\">Login</a>
