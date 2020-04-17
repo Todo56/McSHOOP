@@ -1,6 +1,6 @@
 
 <?php
-$login = $base . "dashboard/login";
+$login = $base . "dashboard/login.php";
 if(isset($_SESSION["user"]) && isset($_SESSION["password"])){
     $password = $_SESSION["password"];
     $user = $_SESSION["user"];

@@ -11,7 +11,7 @@ $res = $db->query("SELECT * FROM products WHERE id=?", "i", [$id]);
 if(count($res[0]) === 0){
     header("Location: $base");
 }
-$image = $res[0]["image"];
+$image = substr($res[0]["image"], 3);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +107,7 @@ $image = $res[0]["image"];
     <!-- Page Content -->
     <div class="login-form">
         <div class="card" style="">
-            <img class="card-img-top" src=".<?php echo $image; ?>" alt="Card image cap">
+            <img class="card-img-top" src="<?php echo $image; ?>" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">Buy <?php echo $res[0]["name"];?></h5>
                 <b>&dollar;<?php echo $res[0]["price"]?></b>

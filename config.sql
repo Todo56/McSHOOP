@@ -4,7 +4,7 @@ CREATE TABLE products(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), descr
 CREATE TABLE servers(id INT PRIMARY KEY AUTO_INCREMENT, host VARCHAR(50), port VARCHAR(10), password VARCHAR(200));
 CREATE TABLE categories(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), description TEXT);
 CREATE TABLE users(id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(30), password TEXT);
-CREATE TABLE payments(id INT PRIMARY KEY AUTO_INCREMENT, pid INT, price DECIMAL(7, 2), username VARCHAR(100), order_id VARCHAR(100));
+CREATE TABLE payments(id INT PRIMARY KEY AUTO_INCREMENT, pid INT, price DECIMAL(7, 2), username VARCHAR(100), order_id VARCHAR(100), bought_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 INSERT INTO products(name, description, price, command, category, server, author, image) VALUES ('First Product', 'This is your first product.', 3.00, 'setgroup {player} rank', 1, 1, 1, '/assets/images/logo.png');
 INSERT INTO servers(host, port, password) VALUES ('127.0.0.1', '19132', '$2y$12$N6FSH8yRo0YMQ4oPJHN1vOkv7GfK3OhVp22H/AjGoVLY.5Dm7ECYS');

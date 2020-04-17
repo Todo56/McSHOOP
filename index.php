@@ -55,6 +55,31 @@ require ("./auth.php");
             }
             ?>
         </div>
+          <br>
+          <h1 class="my-4">Recent Purchases:</h1>
+
+          <?php
+          $res2 = $db->select("SELECT * FROM payments ORDER BY bought_at DESC");
+          while($row = $res2->fetch_assoc()){
+              $name = $row["username"];
+              $money = $row["price"];
+              $pid = $row["pid"];
+              $res3 = $db->select("SELECT * FROM products WHERE id=$pid");
+              if($res3->num_rows === 0){
+                  $text = "$name bought a deleted product. (&dollar;$money)";
+              } else {
+                  $row1 = $res3->fetch_assoc();
+                  $product = $row1["name"];
+                  $text = "$name bought <b>$product</b>. (&dollar;$money)";
+              }
+              echo "
+              <div class=\"card\" style=\"width: 15rem;\">
+  <div class=\"card-header\">
+    $text
+  </div>
+</div><br>";
+          }
+          ?>
       </div>
       <!-- /.col-lg-3 -->
       <div class="col-lg-9">
@@ -99,7 +124,7 @@ require ("./auth.php");
                 $name = $row["name"];
                 $description = $row["description"];
                 $price = $row["price"];
-                $image = $row["image"];
+                $image = substr($row["image"], 3);
                 $category = $row["category"];
                 $res1 = $db->select( "SELECT * FROM categories WHERE id=$category");
                 if($res->num_rows === 0){
@@ -108,13 +133,12 @@ require ("./auth.php");
                     $row11 = $res1->fetch_assoc();
                     $s = $row11["name"];
                     $cat = "<span class=\"badge badge-success\">$s</span>";
-
                 }
                 $buy = $base . "checkout?id=" . $row["id"];
                 echo "
            <div class=\"col-lg-4 col-md-6 mb-4\">
             <div class=\"card h-100\">
-              <a href=\"#\"><img class=\"card-img-top\" src=\".$image\" alt=\"\"></a>
+              <a href=\"#\"><img class=\"card-img-top\" src=\"$image\" alt=\"\"></a>
               <div class=\"card-body\">
                 <h4 class=\"card-title\">
                   <a href=\"#\">$name</a>

@@ -76,10 +76,9 @@ switch ($_GET["type"]){
         if($_SERVER["REQUEST_METHOD"] === "POST"){
             if(isset($_POST["name"]) && isset($_POST["description"])){
                 if(strlen($_POST["name"]) < 50){
-                    $name = mysqli_real_escape_string($con, $_POST["name"]);
-                    $description = mysqli_real_escape_string($con, $_POST["description"]);
-                    $db->query("INSERT INTO categories (name, description) VALUES (?, ?)", "ss", [$name, $description]);
-                    //$con->query("INSERT INTO categories (name, description) VALUES ('$name', '$description')");
+                    $name = $_POST["name"];
+                    $description = $_POST["description"];
+                    $db->insert("INSERT INTO categories (name, description) VALUES (?, ?)", "ss", [$name, $description]);
                     echo "<script>
                         window.location = '$dashboard'
                     </script>";
@@ -128,7 +127,7 @@ switch ($_GET["type"]){
                     $category = intval($_POST["category"]);
                     $author = intval($_SESSION["user_id"]);
                     if($_FILES["image"]){
-                        $target_dir = "../../assets/images/";
+                        $target_dir = "../assets/images/";
                         $target_file = $target_dir . basename($_FILES["image"]["name"]);
                         if (file_exists($target_file)) {
                             $target_file = $target_dir . generateRandomString() . ".".pathinfo($_FILES['image']['name'],PATHINFO_EXTENSION);
