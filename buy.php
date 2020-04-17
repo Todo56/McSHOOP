@@ -158,6 +158,8 @@ $image = $res[0]["image"];
             // This function captures the funds from the transaction.
             return actions.order.capture().then(function (details) {
                 details.link = details.links[0].href;
+                details.product_id = '<?php echo $id;?>';
+                details.price = '<?php echo $res[0]["price"];?>';
                 // This function shows a transaction success message to your buyer.
                 $.ajax({
                     url: "./utils/PayPal/authPayment.php",
@@ -175,7 +177,11 @@ $image = $res[0]["image"];
                                 title: title,
                                 text: json.m
                             }).then(d => {
-                                window.location.href = "./success.php?pid=<?php echo $id?>&user=<?php echo $_SESSION["username"];?>";
+                                if(json.error){
+                                    window.location.href = "./error.php?pid=<?php echo $id?>&user=<?php echo $_SESSION["username"];?>";
+                                } else {
+                                    window.location.href = "./success.php?pid=<?php echo $id?>&user=<?php echo $_SESSION["username"];?>";
+                                }
                             })
                         }, 1000);
                         // alert(JSON.stringify(data));

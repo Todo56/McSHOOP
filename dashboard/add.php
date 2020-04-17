@@ -233,10 +233,26 @@ switch ($_GET["type"]){
     </form>
 </div>
         ";
-        require("../../utils/Rcon.php");
-        $rcon = new Rcon("127.0.0.1", 19132, "5u10vgtpic", 1);
-        if($rcon->connect()){
-            $rcon->sendCommand("say Server connected with McpeSHOOP");
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            if(isset($_POST["host"]) && isset($_POST["port"]) && isset($_POST["password"])){
+                require("../utils/Rcon.php");
+                $rcon = new Rcon($_POST["host"], $_POST["port"], $_POST["password"], 3);
+                try {
+                    if($rcon->connect()){
+                        $rcon->sendCommand("say Server connected with McpeSHOOP");
+                        $db->insert("INSERT INTO servers (host, port, password) VALUES(?, ?, ?)", "sss", [$_POST["host"], $_POST["port"], $_POST["password"]]);
+                        echo "<script>
+                        window.location = '$dashboard'
+                    </script>";
+                    } else {
+                        $error = "Couldn't connect to server.";
+                    }
+                } catch (Error $e){
+                    $error = "Couldn't connect to server.";
+                }
+            } else {
+                $error = "Invalid Request";
+            }
         }
         break;
     case "user":

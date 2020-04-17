@@ -88,8 +88,12 @@ require ("./auth.php");
 
         <div class="row">
             <?php
-
-            $res = $db->select( "SELECT * FROM products");
+            if(isset($_GET["category"])){
+                $num = intval($_GET["category"]);
+                $res = $db->select( "SELECT * FROM products WHERE category=$num");
+            } else {
+                $res = $db->select( "SELECT * FROM products");
+            }
             while($row = $res->fetch_assoc()){
                 $id = $row["id"];
                 $name = $row["name"];
@@ -128,16 +132,12 @@ require ("./auth.php");
                 ";
             }
             ?>
-
         </div>
         <!-- /.row -->
-
       </div>
       <!-- /.col-lg-9 -->
-
     </div>
     <!-- /.row -->
-
   </div>
   <!-- /.container -->
 

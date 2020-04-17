@@ -63,18 +63,23 @@ class Rcon
      */
     public function connect()
     {
-        $this->socket = fsockopen($this->host, $this->port, $errno, $errstr, $this->timeout);
+        try {
+            $this->socket = fsockopen($this->host, $this->port, $errno, $errstr, $this->timeout);
 
-        if (!$this->socket) {
-            $this->lastResponse = $errstr;
-            return false;
+            if (!$this->socket) {
+                $this->lastResponse = $errstr;
+                return false;
+            }
+
+            //set timeout
+            stream_set_timeout($this->socket, 3, 0);
+
+            // check authorization
+            return $this->authorize();
+        } catch (Error $e){
+            throw $e;
         }
 
-        //set timeout
-        stream_set_timeout($this->socket, 3, 0);
-
-        // check authorization
-        return $this->authorize();
     }
 
     /**

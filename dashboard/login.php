@@ -3,6 +3,7 @@ $error = "";
 include("../utils/DatabaseManager.php");
 session_start();
 require ("../config.php");
+$db = new DatabaseManager($con_settings);
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     if(isset($_POST["user"]) && isset($_POST["password"])){
         $password = hash('sha512', $_POST['password']);
