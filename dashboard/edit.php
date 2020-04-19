@@ -171,7 +171,7 @@ switch ($_GET["type"]){
         </div>
         <br>
         <div class=\"form-group\">
-            <button type=\"submit\" class=\"btn btn-primary btn-block\">Edit</button>
+            <button type=\"submit\" class=\"btn btn-primary btn-block\">Save</button>
         </div>
         <div class=\"clearfix\">
             <?php  echo $error;?>
@@ -183,6 +183,22 @@ switch ($_GET["type"]){
     case "category":
         $name = $row["name"];
         $des = $row["description"];
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            if(isset($_POST["name"]) && isset($_POST["description"])){
+                if(strlen($_POST["name"]) < 50){
+                    $name = $_POST["name"];
+                    $description = $_POST["description"];
+                    $db->insert("UPDATE categories SET name=?, description=? WHERE id=$id", "ss", [$name, $description]);
+                    echo "<script>
+                        window.location = '$dashboard'
+                    </script>";
+                } else {
+                    $error = "Name is too long";
+                }
+            } else {
+                $error = "Invalid Request";
+            }
+        }
         echo "
         <div class=\"login-form\">
     <form method=\"post\">
@@ -194,7 +210,7 @@ switch ($_GET["type"]){
             <textarea name='description' required class=\"form-control\">$des</textarea>
         </div>
         <div class=\"form-group\">
-            <button type=\"submit\" class=\"btn btn-primary btn-block\">Edit</button>
+            <button type=\"submit\" class=\"btn btn-primary btn-block\">Save</button>
         </div>
         <div class=\"clearfix\">
             <?php  echo $error;?>
@@ -204,7 +220,53 @@ switch ($_GET["type"]){
         ";
         break;
     case "server":
-
+        $server = $row["host"];
+        $port = $row["port"];
+        $pass = $row["password"];
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            if(isset($_POST["host"]) && isset($_POST["port"]) && isset($_POST["password"])){
+                require("../utils/Rcon.php");
+                $rcon = new Rcon($_POST["host"], $_POST["port"], $_POST["password"], 3);
+                try {
+                    if($rcon->testserver()){
+                        $db->insert("UPDATE servers SET host=?, port=?, password=? WHERE id=$id", "sss", [$_POST["host"], $_POST["port"], $_POST["password"]]);
+                        echo "<script>
+                        window.location = '$dashboard'
+                    </script>";
+                    } else {
+                        $error = "Couldn't connect to server.";
+                    }
+                } catch (Error $e){
+                    $error = "Couldn't connect to server.";
+                }
+            } else {
+                $error = "Invalid Request";
+            }
+        }
+echo "
+<div class=\"login-form\">
+    <form method=\"post\">
+        <h2 class=\"text-center\">Edit Server</h2>
+        <div class=\"form-group\">
+            Host:
+            <input type=\"text\" class=\"form-control\" value='' name=\"host\" required>
+        </div>
+                <div class=\"form-group\">
+                Port:
+            <input type=\"number\" class=\"form-control\" value='' name=\"port\" required>
+        </div>
+        <div class=\"form-group\">
+        Password:
+                    <input type=\"password\" class=\"form-control\" placeholder=\"Password\" name=\"password\" required>
+        </div><br>
+        <div class=\"form-group\">
+            <button type=\"submit\" class=\"btn btn-primary btn-block\">Save</button>
+        </div>
+        <div class=\"clearfix\">
+            <?php  echo $error;?>
+        </div>
+    </form>
+</div>";
         break;
 }
 ?>

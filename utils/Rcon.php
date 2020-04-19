@@ -81,6 +81,19 @@ class Rcon
         }
 
     }
+    /**
+     * If the server is valid.
+     *
+     * @return boolean
+     */
+    public function testserver(){
+        if($this->connect()){
+            $this->sendCommand("say Server connected with McpeSHOOP");
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Disconnect from server.

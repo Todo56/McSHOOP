@@ -237,8 +237,7 @@ switch ($_GET["type"]){
                 require("../utils/Rcon.php");
                 $rcon = new Rcon($_POST["host"], $_POST["port"], $_POST["password"], 3);
                 try {
-                    if($rcon->connect()){
-                        $rcon->sendCommand("say Server connected with McpeSHOOP");
+                    if($rcon->testserver()){
                         $db->insert("INSERT INTO servers (host, port, password) VALUES(?, ?, ?)", "sss", [$_POST["host"], $_POST["port"], $_POST["password"]]);
                         echo "<script>
                         window.location = '$dashboard'
