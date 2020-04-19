@@ -72,8 +72,8 @@ if($res->num_rows === 0){
         }
     </style>
 </head>
-
 <body>
+<?php require("../assets/partials/navbar.php"); ?>
 <?php
 $row = $res->fetch_assoc();
 switch ($_GET["type"]){

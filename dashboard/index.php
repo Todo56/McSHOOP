@@ -19,13 +19,15 @@ include "dashauth.php";
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
     <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Custom styles for this template -->
-
     <link href="../assets/css/style.css" rel="stylesheet">
+
 
 </head>
 
@@ -35,13 +37,35 @@ include "dashauth.php";
 <?php require("../assets/partials/navbar.php"); ?>
 
 <!-- Page Content -->
+<?php
+if(isset($_GET["error"]) && isset($_GET["message"])){
+    $type = "success";
+    $title = "Success!";
+    if($_GET["error"] === "1"){
+        $type = "error";
+        $title = "Error!";
+    }
+    $msg = $_GET["message"];
+    echo "<script>
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+                            Swal.fire({
+                                icon: '$type',
+                                title: '$title',
+                                text: capitalize('$msg')
+                            })
+</script>";
+}
+?>
 <div class="container">
 
     <div class="row">
 
         <div class="col-lg-3">
 
-            <h1 class="my-4"><?php echo $shop_name; ?></h1>
+            <h1 class="my-4"><?php echo "Categories:";?></h1>
             <div class="row">
                 <?php
                 $db = new DatabaseManager($con_settings);
@@ -69,7 +93,63 @@ include "dashauth.php";
                 ";
                 }
                 ?>
+            </div><br>
+            <h1 class="my-4"><?php echo "Servers:";?></h1>
+
+            <div class="row">
+                <?php
+                $res = $db->select( "SELECT * FROM servers");
+
+                while($row = $res->fetch_assoc()){
+                    $id = $row["id"];
+                    $name = $row["host"];
+                    $port = $row["port"];
+                    $password = $row["password"];
+
+                    echo "
+
+            <div class=\"card\" style=\"width: 18rem;\">
+              <div class=\"card-body\">
+                <h4 class=\"card-title\">
+                  <a href=\"#\">$name:$port</a>
+                </h4>
+                <div class=\"dropdown\">
+  <button class=\"btn btn-warning dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+    Actions
+  </button>
+  <script>
+  function requestServer(){
+      /*$.ajax({
+          url: './authPayment.php',
+          method: 'POST',
+          data: {
+              host: $name,
+              port: $port,
+              password: $password
+          }
+      })*/
+  }
+</script>
+  <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
+    <a class=\"dropdown-item btn btn-danger\" href=\"./delete.php?id=$id&type=server\">Delete</a>
+    <a class=\"dropdown-item\" href=\"./edit.php?id=$id&type=server\">Edit</a>
+    <a class='dropdown-item' onclick=''></a>
+  </div>
+</div>
+                </div>
+              <div class=\"card-footer\">
+                <!-- <small class=\"text-muted\">&#9733; &#9733; &#9733; &#9733; &#9734;</small>-->
+              </div>
             </div>
+                ";
+                }
+                ?>
+
+            </div>
+
+
+
+
         </div>
         <!-- /.col-lg-3 -->
         <div class="col-lg-9">
@@ -128,58 +208,6 @@ include "dashauth.php";
         </div>
 
     </div>
-    <div class="row">
-            <?php
-            $res = $db->select( "SELECT * FROM servers");
-
-            while($row = $res->fetch_assoc()){
-                $id = $row["id"];
-                $name = $row["host"];
-                $port = $row["port"];
-                $password = $row["password"];
-
-                echo "
-           <div class=\"col-lg-4 col-md-6 mb-4\">
-            <div class=\"card h-100\">
-              <div class=\"card-body\">
-                <h4 class=\"card-title\">
-                  <a href=\"#\">$name:$port</a>
-                </h4>
-                <div class=\"dropdown\">
-  <button class=\"btn btn-warning dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-    Actions
-  </button>
-  <script>
-  function requestServer(){
-      $.ajax({
-          url: './authPayment.php',
-          method: 'POST',
-          data: {
-              host: $name,
-              port: $port,
-              password: $password
-          }
-      })
-  }
-</script>
-  <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-    <a class=\"dropdown-item btn btn-danger\" href=\"./delete.php?id=$id&type=server\">Delete</a>
-    <a class=\"dropdown-item\" href=\"./edit.php?id=$id&type=server\">Edit</a>
-    <a class='dropdown-item' onclick=''></a>
-  </div>
-</div>
-                </div>
-              <div class=\"card-footer\">
-                <!-- <small class=\"text-muted\">&#9733; &#9733; &#9733; &#9733; &#9734;</small>-->
-              </div>
-            </div>
-          </div>
-                ";
-            }
-            ?>
-
-    </div>
-
 </div>
 
 <footer class="py-5 bg-dark" style="background-color: #181a1b!important;">

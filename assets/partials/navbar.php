@@ -52,6 +52,7 @@
             $logout = $base . "dashboard/logout.php";
             $dashboard = $base . "dashboard";
             $add = $dashboard . "/add.php";
+            $purchases = $dashboard . "/purchases.php";
             echo "
                     <li class=\"nav-item dropdown \">
             <a class=\"nav-link dropdown-toggle\" style=\"color: white\" href=\"\" id=\"navbarDropdownMenuLink\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
@@ -60,6 +61,7 @@
             <ul class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"navbarDropdownMenuLink\">
                 <li  ><a href=\"$dashboard\" class=\"dropdown-item\">Home</a></li>
                 <li ><a href=\"$logout\" class=\"dropdown-item\" >Logout</a></li>
+                <li ><a href=\"$purchases\" class=\"dropdown-item\" >Purchases</a></li>
                 <li class=\"nav-item dropdown-submenu\">
                     <a class=\"test dropdown-item dropdown-toggle\" tabindex=\"-1\" href=\"\" style=\"background-color: rgb(24, 26, 27); color: white\">Create<span class=\"caret\"></span></a>
                     <ul class=\"dropdown-menu\">

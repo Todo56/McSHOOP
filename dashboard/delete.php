@@ -23,6 +23,7 @@ if(isset($_GET["id"]) && isset($_GET["type"])){
             header("Location: $base");
             break;
     }
+    $stat = 1;
     if($table !== ""){
         $id = intval($_GET["id"]);
         $con = new mysqli($con_settings[0], $con_settings[1], $con_settings[2], $con_settings[3]);
@@ -32,9 +33,17 @@ if(isset($_GET["id"]) && isset($_GET["type"])){
             $image = $row["image"];
             unlink("$image");
         }
-
-        $con->query("DELETE FROM $table WHERE id=$id");
-        header("Location: $base" . "/dashboard?error=0&message=$type has been deleted successfully!");
+        if($table === "servers") {
+            $r = $con->query("SELECT * FROM products WHERE server=$id");
+            if ($r->num_rows !== 0) {
+                $stat = 0;
+                header("Location: $base" . "/dashboard?error=1&message=A server cannot be deleted if it's linked to a product.");
+            }
+        }
+        if($stat === 1){
+            $con->query("DELETE FROM $table WHERE id=$id");
+            header("Location: $base" . "/dashboard?error=0&message=$type has been deleted successfully!");
+        }
     }
 } else {
 header("Location: $base");
