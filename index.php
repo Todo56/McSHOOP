@@ -59,7 +59,7 @@ require ("./auth.php");
           <h1 class="my-4">Recent Purchases:</h1>
 
           <?php
-          $res2 = $db->select("SELECT * FROM payments ORDER BY bought_at DESC");
+          $res2 = $db->select("SELECT * FROM payments ORDER BY bought_at DESC LIMIT 10");
           while($row = $res2->fetch_assoc()){
               $name = $row["username"];
               $money = $row["price"];
