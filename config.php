@@ -27,3 +27,4 @@ $paypal_url = ($sandbox === true) ? "https://www.sandbox.paypal.com/cgi-bin/webs
 // SERVER SETTINGS:
 $allow_broadcast_message = true; // Whether a message should be broadcasted to the server when someone buys something. (Requires our plugin).
 $broadcast_message = "{{player}} bough the product {{product}} off of our store running McpeSHOOP that has a value of {{price}}!"; // The variable {{player}} replaces the player's ign, {{product}} replaces the product's name and {{price}} the products price.
+$dologs = true; // Whether to create logs of everything that goes or does not go good in the log.txt file.

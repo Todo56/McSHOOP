@@ -13,6 +13,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         if(count($res) < 1){
             $error = "Invalid Credentials";
         } else {
+            if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                $ip = $_SERVER['HTTP_CLIENT_IP'];
+            } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            } else {
+                $ip = $_SERVER['REMOTE_ADDR'];
+            }
+            include "../utils/Log.php";
+            $log = new Log("../log.txt", $dologs);
+            $log->create("User $user logged it to the dashboard with IP: $ip.", 1);
             $_SESSION["user"] = $user;
             $_SESSION["user_id"] = $res["id"];
             $_SESSION["password"] = $password;
