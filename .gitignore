@@ -30,7 +30,8 @@ cmake-build-debug/
 *.iws
 
 ## Plugin-specific files:
-
+**/images
+./config.php
 # IntelliJ
 /out/
 

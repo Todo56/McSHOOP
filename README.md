@@ -1,4 +1,5 @@
 # McpeSHOOP
+### THIS IS STILL AN ALPHA. THERE ARE MANY FEATURES TO BE ADDED AND WE DO NOT RECOMMEND TO USE THIS IN A PRODUCTION ENVIRONMENT.
 ## What is it?
 McpeSHOOP is an online Minecraft shop for servers similar to Tebex, on which you can sell ranks, perks and anything that can be done with a command on-line. It is lightweight, runs using PHP 7.0 minimum and uses MySQL to store the information. It runs using the paypal API. 
 
