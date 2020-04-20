@@ -77,7 +77,7 @@ class Rcon
             // check authorization
             return $this->authorize();
         } catch (Error $e){
-            throw $e;
+
         }
 
     }

@@ -13,7 +13,11 @@ $image = $res[0]["image"]
 <html lang="en">
 
 <head>
-
+    <script src="https://cdn.rawgit.com/adriancooney/console.image/c9e6d4fd/console.image.min.js"></script>
+    <script>
+        console.image("https://todo56.dev/assets/images/stop.png");
+        console.info("Changing the javascript or html of this site could fuck up your purchase. Unless you know what you're doing just close this.");
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -109,6 +113,7 @@ $image = $res[0]["image"]
 <!-- Navigation -->
 <?php require("./assets/partials/navbar.php"); ?>
 <div id="body" >
+
     <!-- Page Content -->
     <div class="login-form">
         <div class="card bg-danger" style="">

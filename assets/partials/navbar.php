@@ -35,7 +35,7 @@
 </script>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background-color: #181a1b!important;">
     <div class="container">
-      <a class="navbar-brand" href="<?php echo $base;?>"><?php echo $shop_name; ?> | Logged in as <?php echo $_SESSION["username"]; ?></a>
+      <a class="navbar-brand" href="<?php echo $base;?>"><?php echo $shop_name; if(isset($_SESSION["username"])){ echo "| Logged in as " . $_SESSION["username"]; }?> </a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
 </button>

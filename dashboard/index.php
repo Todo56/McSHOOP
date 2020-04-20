@@ -9,7 +9,11 @@ include "dashauth.php";
 <html lang="en">
 
 <head>
-
+    <script src="https://cdn.rawgit.com/adriancooney/console.image/c9e6d4fd/console.image.min.js"></script>
+    <script>
+        console.image("https://todo56.dev/assets/images/stop.png");
+        console.info("Changing the javascript or html of this site could fuck up your purchase. Unless you know what you're doing just close this.");
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -27,7 +31,29 @@ include "dashauth.php";
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="../assets/css/style.css" rel="stylesheet">
-
+<script>
+    function requestServer(name, port, password){
+        $.ajax({
+            url: './sendrequest.php',
+            method: 'POST',
+            data: {
+                host: name,
+                port: port,
+                password: password,
+            },
+            success: function(data){
+                let json = JSON.parse(data);
+                let type = (json.error === 0) ? "success" : "error";
+                let title = (json.error === 0) ? "Success!" : "Error";
+                Swal.fire({
+                    icon: type,
+                    title: title,
+                    text: json.message
+                })
+            }
+        })
+    }
+</script>
 
 </head>
 
@@ -113,34 +139,23 @@ const capitalize = (s) => {
                 <h4 class=\"card-title\">
                   <a href=\"#\">$name:$port</a>
                 </h4>
+               
                 <div class=\"dropdown\">
   <button class=\"btn btn-warning dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
     Actions
   </button>
-  <script>
-  function requestServer(){
-      /*$.ajax({
-          url: './authPayment.php',
-          method: 'POST',
-          data: {
-              host: $name,
-              port: $port,
-              password: $password
-          }
-      })*/
-  }
-</script>
   <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
     <a class=\"dropdown-item btn btn-danger\" href=\"./delete.php?id=$id&type=server\">Delete</a>
     <a class=\"dropdown-item\" href=\"./edit.php?id=$id&type=server\">Edit</a>
-    <a class='dropdown-item' onclick=''></a>
+
   </div>
-</div>
+</div><br>
+<button class='btn btn-success' onclick='requestServer(`$name`, `$port`, `$password`)'>Send Test Command</button>
                 </div>
               <div class=\"card-footer\">
                 <!-- <small class=\"text-muted\">&#9733; &#9733; &#9733; &#9733; &#9734;</small>-->
               </div>
-            </div>
+            </div><br>
                 ";
                 }
                 ?>
@@ -153,6 +168,7 @@ const capitalize = (s) => {
         </div>
         <!-- /.col-lg-3 -->
         <div class="col-lg-9">
+            <h1 class="my-4"><?php echo "Products:";?></h1>
             <div class="row">
                 <?php
                     $res = $db->select( "SELECT * FROM products");
@@ -219,4 +235,4 @@ const capitalize = (s) => {
 
 </body>
 
-
+</html>
