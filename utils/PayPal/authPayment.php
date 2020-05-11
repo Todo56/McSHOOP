@@ -27,13 +27,16 @@ if(!isset($_POST["id"])){
             $product_query = $db->select("SELECT * FROM products WHERE id=$id");
             if($product_query->num_rows == 1){
                 $row = $product_query->fetch_assoc();
-                $command = str_replace("{{player}}", "'$user'", $row["command"]);
+                $command = str_replace("{{player}}", "$user", $row["command"]);
                 if($row["server"] == 0){
                     $server_query = $db->select("SELECT * FROM servers");
                     while ($serverrow = $server_query->fetch_assoc()){
                         $rcon = new Rcon($serverrow["host"], intval($serverrow["port"]), $serverrow["password"], 3);
                         if($rcon->connect()){
-                            $rcon->sendCommand($command);
+                            $commands = explode(",", $command);
+                            foreach($commands as $cmd){
+                                $rcon->sendCommand($cmd);
+                            }
                         }
                     }
                 } else {
@@ -43,7 +46,10 @@ if(!isset($_POST["id"])){
                         $serverroww = $server_query->fetch_assoc();
                         $rcon = new Rcon($serverroww["host"], intval($serverroww["port"]), $serverroww["password"], 3);
                         if($rcon->connect()){
-                            $rcon->sendCommand($command);
+                            $commands = explode(",", $command);
+                            foreach($commands as $cmd){
+                                $rcon->sendCommand($cmd);
+                            }
                         }
                     }
                 }

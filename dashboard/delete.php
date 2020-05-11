@@ -37,12 +37,12 @@ if(isset($_GET["id"]) && isset($_GET["type"])){
             $r = $con->query("SELECT * FROM products WHERE server=$id");
             if ($r->num_rows !== 0) {
                 $stat = 0;
-                header("Location: $base" . "/dashboard?error=1&message=A server cannot be deleted if its linked to a product.");
+                header("Location: $base" . "dashboard?error=1&message=A server cannot be deleted if its linked to a product.");
             }
         }
         if($stat === 1){
             $con->query("DELETE FROM $table WHERE id=$id");
-            header("Location: $base" . "/dashboard?error=0&message=$type has been deleted successfully!");
+            header("Location: $base" . "dashboard?error=0&message=$type has been deleted successfully!");
         }
     }
 } else {

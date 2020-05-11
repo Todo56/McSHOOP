@@ -58,7 +58,18 @@ include "./dashauth.php";
 <body>
 <?php require("../assets/partials/navbar.php"); ?>
 <div class="container">
+<div class="row">
+    <div class="col-lg-6">
+
+    </div>
 
 </div>
+</div>
+<footer class="py-5 bg-dark" style="background-color: #181a1b!important;">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; <?php echo $shop_name; ?> 2020</p>
+    </div>
+    <!-- /.container -->
+</footer>
 </body>
 </html>

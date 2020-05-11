@@ -124,13 +124,13 @@ switch ($_GET["type"]){
                 } else if(strlen($_POST["command"]) > 100){
                     $error = "Command is too long";
                 } else {
-
                     $name = $_POST["name"];
                     $description = $_POST["description"];
                     $price = floatval($_POST["price"]);
                     $command =  $_POST["command"];
                     $server = intval($_POST["server"]);
                     $category = intval($_POST["category"]);
+                    $ldes = $_POST["long_description"];
                     $author = intval($_SESSION["user_id"]);
                     if($_FILES["image"]){
                         $target_dir = "../assets/images/";
@@ -142,7 +142,7 @@ switch ($_GET["type"]){
                             move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
                         }
                     }
-                    $db->insert("INSERT INTO products(name, description, price, command, category, server, author, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "ssdsiiis", [$name, $description, $price, $command, $category, $server, $author, $target_file]);
+                    $db->insert("INSERT INTO products(name, description,long_description, price, command, category, server, author, image) VALUES (?, ?,?, ?, ?, ?, ?, ?, ?)", "sssdsiiis", [$name, $description,$ldes, $price, $command, $category, $server, $author, $target_file]);
                     echo "<script>
                         window.location = '$dashboard'
                     </script>";
@@ -162,6 +162,10 @@ switch ($_GET["type"]){
         Description:
             <textarea name='description' placeholder='This product is very nice! You should probably buy it.' required class=\"form-control\"></textarea>
         </div>
+                <div class=\"form-group\">
+        Long Description (Markdown Support):
+            <textarea name='long_description' placeholder='Idk man' class=\"form-control\"></textarea>
+        </div>
         <div class=\"form-group\">
              Price:
              <input type=\"number\" class=\"form-control\" required name=\"price\" min=\"0\" value=\"0\" step=\".01\">
@@ -173,7 +177,7 @@ switch ($_GET["type"]){
         <div class=\"form-group\">
             Command:
             <textarea name='command' placeholder='setgroup {{player}} Rank' required class=\"form-control\"></textarea>
-            <small>{{player}} is the player's name.</small>
+            <small>{{player}} is the player's name. You can add multiple commands separated by a ','. Example: setgroup {{player}} admin,say {{player}} bought a rank!</small>
         </div>
         <div class=\"form-group\">
         Server to execute this on:

@@ -97,8 +97,8 @@ switch ($_GET["type"]){
                     $server = intval($_POST["server"]);
                     $category = intval($_POST["category"]);
                     $author = intval($_SESSION["user_id"]);
-
-                    $db->insert("UPDATE products SET name=?, description=?, price=?, command=?, category=?, server=? WHERE id='$id'", "ssisii", [$name, $description, $price, $command, $category, $server]);
+                    $ldes = $_POST["long_description"];
+                    $db->insert("UPDATE products SET name=?, description=?, long_description=?, price=?, command=?, category=?, server=? WHERE id='$id'", "sssisii", [$name, $description, $ldes, $price, $command, $category, $server]);
                     echo "<script>
                         window.location = '$dashboard'
                     </script>";
@@ -113,6 +113,7 @@ switch ($_GET["type"]){
         $des = $row["description"];
         $name = $row["name"];
         $price = $row["price"];
+        $ldes = $row["long_description"];
         echo "
         <div class=\"login-form\">
     <form method=\"post\" enctype=\"multipart/form-data\">
@@ -124,6 +125,10 @@ switch ($_GET["type"]){
         <div class=\"form-group\">
         Description:
             <textarea name='description' required class=\"form-control\">$des</textarea>
+        </div>
+                        <div class=\"form-group\">
+        Long Description (Markdown Support):
+            <textarea name='long_description' class=\"form-control\">$ldes</textarea>
         </div>
         <div class=\"form-group\">
              Price:
@@ -149,9 +154,9 @@ switch ($_GET["type"]){
             $id = $row["id"];
 
             if($id == $row["server"]){
-                echo "<option selected value='$id'>$ip</option>";
+                echo "<option selected value='$id'>$ip:$port</option>";
             } else {
-                echo "<option value='$id'>$ip</option>";
+                echo "<option value='$id'>$ip:$port</option>";
             }
         }
         echo "
