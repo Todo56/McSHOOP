@@ -25,3 +25,7 @@ McpeSHOOP is self hosted and opensource thus it is free and only requires a host
 5. Download our plugin for a better experience and install it into your Minecraft Server.
 6. Try purchasing an article on ___**SANDBOX**___ mode or live mode if you wish.
 7. If everything has worked fine you should be able to enjoy McpeSHOOP in your server. If an error pops out however, feel free to join our Discord Server!
+
+## Demo
+You can take a look at a finished shop using McSHOOP:
+https://shop.endgames.cf 
