@@ -28,4 +28,8 @@ McpeSHOOP is self hosted and opensource thus it is free and only requires a host
 
 ## Demo
 You can take a look at a finished shop using McSHOOP:
-https://shop.endgames.cf 
+https://shop.endgames.cf
+![EndGames Shop](https://todo56.dev/assets/images/shopimage.PNG "Demo of the EndGames Shop.")
+
+Also, feel free to join the actual MCPE server at play.endgames.cf:19132
+:)
