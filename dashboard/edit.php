@@ -87,8 +87,6 @@ switch ($_GET["type"]){
                 if(strlen($_POST["name"]) > 50){
                     $error = "Name is too long";
 
-                } else if(strlen($_POST["command"]) > 100){
-                    $error = "Command is too long";
                 } else {
                     $name = $_POST["name"];
                     $description = $_POST["description"];
