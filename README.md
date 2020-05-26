@@ -8,6 +8,10 @@ McpeSHOOP is an online Minecraft shop for servers similar to Tebex, on which you
 - Custom commands for purchases.
 - Message Broadcaster.
 - Categories for products.
+- Multiple commands foreach product.
+### Comming soon...
+- Purchases page on dashboard.
+- Stats.
 
 ## Technologies Used:
 - PHP 7.4
